@@ -13,5 +13,11 @@
   "scripts": {
     "tsc": "tsc",
     "start": "ts-node ./src/index.ts"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "@types/qs": "^6.9.3",
+    "node-fetch": "^2.6.0",
+    "qs": "6.9.3"
   }
 }
