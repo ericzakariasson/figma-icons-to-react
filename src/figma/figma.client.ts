@@ -5,7 +5,8 @@ import {
   GetFileNodesOptions,
   GetFileNodesResult,
   GetImageOptions,
-  GetImageResult
+  GetImageResult,
+  GetRequest
 } from "./figma.client.types";
 
 const qsOptions: qs.IStringifyOptions = {
@@ -20,7 +21,7 @@ export class FigmaClient {
     this.accessToken = accessToken;
   }
 
-  private async request<T = any>(url: string): Promise<T> {
+  private async request<T extends GetRequest>(url: string): Promise<T> {
     const response = await fetch(`${this.BASE_URL}/${url}`, {
       headers: {
         "X-Figma-Token": this.accessToken,
@@ -29,6 +30,10 @@ export class FigmaClient {
     });
 
     const data: T = await response.json();
+
+    if (data.err) {
+      throw new Error(data.err);
+    }
 
     return data;
   }

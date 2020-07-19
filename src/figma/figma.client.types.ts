@@ -10,7 +10,12 @@ export interface GetImageOptions extends IdsOptions {
   format: "svg" | "jpg" | "png" | "pdf";
 }
 
-export interface GetFileResult {
+export interface GetRequest {
+  err?: string;
+  status?: number;
+}
+
+export interface GetFileResult extends GetRequest {
   name: string;
   lastModified: string;
   thumbnailURL: string;
@@ -21,7 +26,7 @@ export interface GetFileResult {
   styles: { [styleName: string]: Style };
 }
 
-export interface GetFileNodesResult {
+export interface GetFileNodesResult extends GetRequest {
   name: string;
   lastModified: string;
   thumbnailURL: string;
@@ -37,7 +42,7 @@ export interface GetFileNodesResult {
   };
 }
 
-export interface GetImageResult {
+export interface GetImageResult extends GetRequest {
   err?: string;
   images: { [nodeId: string]: string | null };
   status?: number;

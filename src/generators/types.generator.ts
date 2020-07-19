@@ -1,11 +1,7 @@
 import path from "path";
-import { GeneratorConfig, GeneratedIconData } from "../types";
+import { GeneratorConfig } from "../types";
 import { writeFormattedFile } from "../utils";
-import { defaultTypeDeclarationTemplate } from "../templates";
-import {
-  defaultPropTypes,
-  defaultIconTypesTemplate
-} from "../templates/types.template";
+import { defaultPropTypes, defaultIconTypesTemplate } from "../templates";
 
 export const defaultTypesFile = "Icon.types.ts";
 

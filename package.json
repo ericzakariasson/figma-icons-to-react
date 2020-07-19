@@ -16,7 +16,12 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "start": "ts-node ./src/index.ts"
+    "start": "ts-node ./src/index.ts",
+    "cli": "./bin/icons-to-react",
+    "build": "tsc -p ."
+  },
+  "bin": {
+    "generate-icons": "./dist/cli.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
