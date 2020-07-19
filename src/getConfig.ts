@@ -25,7 +25,7 @@ export const getConfig = (defaultConfig: IconGeneratorConfig) => {
 
     const requiredKeys: IconGeneratorConfigKey[] = [
       "fileId",
-      "fileNodeIds",
+      "frames",
       "iconsPath"
     ];
     const validKeys = Object.keys(defaultConfig);
@@ -39,7 +39,7 @@ export const getConfig = (defaultConfig: IconGeneratorConfig) => {
       }
 
       if (
-        (key as IconGeneratorConfigKey) === "fileNodeIds" &&
+        (key as IconGeneratorConfigKey) === "frames" &&
         (!Array.isArray(value) || value.length === 0)
       ) {
         throw new Error(`"${key}" is not a valid array`);
@@ -66,8 +66,8 @@ export const getConfig = (defaultConfig: IconGeneratorConfig) => {
       "The path where icons will be generated"
     )
     .requiredOption(
-      "-fnids, --file-node-ids <strings>",
-      "Comma separated file node ids",
+      "-f, --frames <strings>",
+      "Comma separated frame ids (file node ids)",
       value => value.replace(/\s/g, "").split(",")
     )
     .parse(process.argv);
@@ -90,10 +90,10 @@ export const getConfig = (defaultConfig: IconGeneratorConfig) => {
             ...config,
             iconsPath: value
           };
-        case "fileNodeIds":
+        case "frames":
           return {
             ...config,
-            fileNodeIds: value
+            frames: value
           };
         case "token":
           return {
