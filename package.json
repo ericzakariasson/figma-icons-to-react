@@ -6,7 +6,11 @@
   "author": "ericzakariasson <eric.zakariasson@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/lodash": "^4.14.157",
     "@types/node": "^14.0.23",
+    "@types/node-fetch": "^2.5.7",
+    "@types/qs": "^6.9.3",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
@@ -15,10 +19,13 @@
     "start": "ts-node ./src/index.ts"
   },
   "dependencies": {
-    "@types/node-fetch": "^2.5.7",
-    "@types/qs": "^6.9.3",
+    "chalk": "^4.1.0",
     "commander": "^5.1.0",
+    "core-js": "^3.6.5",
+    "lodash": "^4.17.19",
     "node-fetch": "^2.6.0",
+    "node-html-parser": "^1.2.20",
+    "prettier-eslint": "^11.0.0",
     "qs": "6.9.3"
   }
 }
