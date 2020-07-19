@@ -18,6 +18,7 @@ export interface ComponentTemplateParameters {
   innerContent: string;
   size: number;
   raw: string;
+  typesFilePath: string;
   config: GeneratorConfig;
 }
 
@@ -37,6 +38,11 @@ export interface PropType {
 
 export interface TypeDeclarationTemplateParameters {
   icons: GeneratedIconData[];
+  propTypes: PropType[];
+  config: GeneratorConfig;
+}
+
+export interface ComponentTypesTemplateParameters {
   propTypes: PropType[];
   config: GeneratorConfig;
 }
@@ -68,9 +74,6 @@ interface ComponentOptions {
   namePrefix?: string;
   nameSuffix?: string;
   template?: (parameters: ComponentTemplateParameters) => Promise<string>;
-  typesTemplate?: (
-    parameters: TypeDeclarationTemplateParameters
-  ) => Promise<string>;
   /**
    * Defaults to
    * ```
@@ -80,6 +83,10 @@ interface ComponentOptions {
    */
   props?: Record<string, any>;
   propTypes?: PropType[];
+  /**
+   * Defaults to `Icon.types.ts`
+   */
+  typesFile?: string;
   attributes?: Record<string, any>;
   /**
    * Default to `24`
@@ -92,6 +99,10 @@ export interface GeneratorConfig {
   output: string;
   figma: FigmaConfig;
   component?: ComponentOptions;
+  /**
+   * Preferrably used with `jsx`
+   */
+  typeDeclaration?: boolean | "force";
   switchComponent?: SwitchComponentOptions;
   /**
    * Defaults to `true`

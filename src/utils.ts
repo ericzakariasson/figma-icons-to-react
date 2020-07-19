@@ -1,5 +1,6 @@
 import { flow, camelCase, upperFirst } from "lodash";
 import fs from "fs";
+import { GeneratorConfig } from "./types";
 
 const format = require("prettier-eslint");
 
@@ -24,3 +25,6 @@ export const writeFormattedFile = (
 
   fs.writeFileSync(filePath, formatted);
 };
+
+export const ifTypescript = (config: GeneratorConfig) => (value: string) =>
+  config.typescript ? value : "";

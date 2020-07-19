@@ -1,4 +1,6 @@
 import { ComponentTemplateParameters } from "../types";
+import { ifTypescript } from "../utils";
+import path from "path";
 
 type Attributes = ComponentTemplateParameters["attributes"];
 type Props = ComponentTemplateParameters["props"];
@@ -35,14 +37,17 @@ export const defaultIconTemplate = async ({
   props,
   size,
   innerContent,
+  typesFilePath,
   config
 }: ComponentTemplateParameters) => {
-  const ifTypescript = (value: string) => (config.typescript ? value : "");
+  const ifTs = ifTypescript(config);
   return `
-    import ${ifTypescript("* as")} React from 'react';
+    import ${ifTs("* as")} React from 'react';
+
+    ${ifTs(`import { IconProps } from "./${path.parse(typesFilePath).name}";`)}
     
-    export const ${name} = React.forwardRef${ifTypescript(
-    "<IconProps, React.SVGElement>"
+    export const ${name} = React.forwardRef${ifTs(
+    `<IconProps, React.SVGElement>`
   )}(({ color = 'currentColor', size = ${size}, ...props }, ref) => {
       return (
         <svg ref={ref} 
@@ -55,6 +60,6 @@ export const defaultIconTemplate = async ({
       )
     });
 
-    ${name}.displayName = '${name}'
+    ${name}.displayName = "${name}";
   `;
 };

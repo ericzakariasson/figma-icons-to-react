@@ -1,2 +1,2 @@
 export * from "./component.template";
-export * from "./types.template";
+export * from "./typeDeclaration.template";

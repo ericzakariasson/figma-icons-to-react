@@ -2,24 +2,17 @@ import path from "path";
 import { GeneratorConfig, GeneratedIconData } from "../types";
 import { writeFormattedFile } from "../utils";
 import { defaultTypeDeclarationTemplate } from "../templates";
-import {
-  defaultPropTypes,
-  defaultIconTypesTemplate
-} from "../templates/types.template";
+import { defaultPropTypes } from "../templates/types.template";
 
-export const defaultTypesFile = "Icon.types.ts";
-
-export const generateTypes = async (
+export const generateTypeDeclaration = async (
+  icons: GeneratedIconData[],
   config: GeneratorConfig
 ): Promise<string> => {
-  const filePath = path.resolve(
-    config.output,
-    config.component?.typesFile ?? defaultTypesFile
-  );
+  const filePath = path.resolve(config.output, `./index.d.ts`);
 
-  const template = defaultIconTypesTemplate;
-
+  const template = defaultTypeDeclarationTemplate;
   const fileContent = await template({
+    icons,
     propTypes: config.component?.propTypes ?? defaultPropTypes,
     config
   });

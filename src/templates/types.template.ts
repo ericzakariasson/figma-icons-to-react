@@ -1,4 +1,9 @@
-import { TypeDeclarationTemplateParameters, PropType } from "../types";
+import {
+  TypeDeclarationTemplateParameters,
+  PropType,
+  ComponentTypesTemplateParameters
+} from "../types";
+import { ifTypescript } from "../utils";
 
 export const defaultPropTypes: PropType[] = [
   {
@@ -15,12 +20,13 @@ export const defaultPropTypes: PropType[] = [
 
 export const defaultIconTypesTemplate = async ({
   propTypes,
-  icons
-}: TypeDeclarationTemplateParameters) => {
+  config
+}: ComponentTypesTemplateParameters) => {
+  const ifTs = ifTypescript(config);
   return `
-    import * as React from 'react';
+    import ${ifTs("* as")} React from 'react';
 
-    interface IconProps extends React.SVGAttributes<React.SVGElement> {
+    export interface IconProps extends React.SVGAttributes<React.SVGElement> {
       ${propTypes
         .map(
           propType =>
@@ -30,9 +36,5 @@ export const defaultIconTypesTemplate = async ({
         )
         .join("\r\n")}
     }
-    
-    type Icon = React.FC<IconProps>;
-
-    ${icons.map(icon => `export const ${icon.name}: Icon;`).join("\r\n")}
   `;
 };

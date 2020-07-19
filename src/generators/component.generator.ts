@@ -13,6 +13,7 @@ import {
   defaultProps
 } from "../templates";
 import { pascalCase, writeFormattedFile } from "../utils";
+import { defaultTypesFile } from "./types.generator";
 
 export const generateIcon = async (
   icon: IconExportData,
@@ -45,6 +46,7 @@ export const generateIcon = async (
     props: config.component?.props ?? defaultProps,
     size: config.component?.size ?? 24,
     raw: html,
+    typesFilePath: config.component?.typesFile ?? defaultTypesFile,
     config
   };
 
