@@ -1,19 +1,18 @@
 import path from "path";
 import fetch from "node-fetch";
 import { parse } from "node-html-parser";
-import fs from "fs";
 import {
   IconExportData,
   GeneratorConfig,
   ComponentTemplateParameters,
   GeneratedIconData
-} from "./types";
+} from "../types";
 import {
   defaultIconTemplate,
   defaultAttributes,
   defaultProps
-} from "./templates/component.template";
-import { pascalCase, writeFormattedFile } from "./utils";
+} from "../templates";
+import { pascalCase, writeFormattedFile } from "../utils";
 
 export const generateIcon = async (
   icon: IconExportData,

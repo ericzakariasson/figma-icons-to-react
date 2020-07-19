@@ -1,10 +1,7 @@
 import path from "path";
-import { GeneratorConfig, GeneratedIconData } from "./types";
-import { writeFormattedFile } from "./utils";
-import {
-  defaultIconTypesTemplate,
-  defaultPropTypes
-} from "./templates/types.template";
+import { GeneratorConfig, GeneratedIconData } from "../types";
+import { writeFormattedFile } from "../utils";
+import { defaultIconTypesTemplate, defaultPropTypes } from "../templates";
 
 export const generateTypes = async (
   icons: GeneratedIconData[],

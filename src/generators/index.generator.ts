@@ -1,6 +1,6 @@
 import path from "path";
-import { GeneratorConfig, GeneratedIconData } from "./types";
-import { writeFormattedFile } from "./utils";
+import { GeneratorConfig, GeneratedIconData } from "../types";
+import { writeFormattedFile } from "../utils";
 
 export const generateIndex = async (
   icons: GeneratedIconData[],
