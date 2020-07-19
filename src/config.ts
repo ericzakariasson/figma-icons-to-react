@@ -1,18 +1,34 @@
-export interface IconGeneratorConfig {
-  figmaToken: string;
-  configFile: string;
-  fileId: string;
-  frames: string[];
-  iconsPath: string;
-  prettierConfig?: string;
-}
+import { InvalidGeneratorConfig, GeneratorConfig } from "./types";
+import fs from "fs";
 
-export type IconGeneratorConfigKey = keyof IconGeneratorConfig;
+export const defaultConfig: InvalidGeneratorConfig = {
+  output: undefined,
+  figma: undefined,
+  typescript: true
+};
 
-export const defaultConfig: IconGeneratorConfig = {
-  figmaToken: "",
-  fileId: "",
-  frames: [],
-  iconsPath: "",
-  configFile: "icon-generator-config.json"
+export const validateConfig = (
+  config: GeneratorConfig | InvalidGeneratorConfig
+) => {
+  const validationMessages: string[] = [];
+  if (config.figma === undefined) {
+    validationMessages.push(`Configuration for Figma must not be empty`);
+  }
+
+  if (config.figma !== undefined && config.figma.token === undefined) {
+    validationMessages.push(`No Figma token provided`);
+  }
+
+  if (config.output === undefined) {
+    validationMessages.push(`Configuration for output must not be empty`);
+  }
+
+  if (config.output && !fs.existsSync(config.output)) {
+    validationMessages.push(`The specified output directory does not exists`);
+  }
+
+  return {
+    validationMessages,
+    isValid: validationMessages.length === 0
+  };
 };
