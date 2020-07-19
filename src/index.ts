@@ -6,55 +6,56 @@ import {
   IconData,
   IconExportData,
   GeneratorConfig,
-  InvalidGeneratorConfig
+  InvalidGeneratorConfig,
 } from "./types";
 import { defaultConfig, validateConfig } from "./config";
 import {
   generateIcon,
   generateIndex,
   generateTypeDeclaration,
-  generateTypes
+  generateTypes,
 } from "./generators";
 
 export const generate = async (
-  initialConfig: GeneratorConfig | InvalidGeneratorConfig = defaultConfig
+  initialConfig: GeneratorConfig | InvalidGeneratorConfig
 ) => {
   const { validationMessages, isValid } = validateConfig(initialConfig);
 
   if (!isValid) {
-    validationMessages.forEach(msg => console.log(chalk.red.bold(msg)));
+    validationMessages.forEach((msg) => console.log(chalk.red.bold(msg)));
     process.exit(1);
   }
 
-  const config = initialConfig as GeneratorConfig;
+  const config: GeneratorConfig = {
+    ...defaultConfig,
+    ...(initialConfig as GeneratorConfig),
+  };
 
   try {
     const figma = new FigmaClient(config.figma.token);
 
     const { nodes } = await figma.getFileNodes(config.figma.fileId, {
-      ids: config.figma.frames
+      ids: config.figma.frames,
     });
 
     const iconData = flatten(
-      Object.values(nodes).map(node => node?.document.children)
+      Object.values(nodes).map((node) => node?.document.children)
     )
       .filter(Boolean)
-      .map<IconData | null>(child =>
+      .map<IconData | null>((child) =>
         child ? { id: child.id, name: child.name, exportUrl: "" } : null
       )
       .filter<IconData>((value): value is IconData => Boolean(value));
 
     const { images } = await figma.getImage(config.figma.fileId, {
-      ids: iconData.map(icon => icon.id),
-      format: "svg"
+      ids: iconData.map((icon) => icon.id),
+      format: "svg",
     });
 
-    const iconExportData = iconData
-      .map<IconExportData>(icon => ({
-        ...icon,
-        url: images[icon.id] ?? ""
-      }))
-      .slice(0, 1);
+    const iconExportData = iconData.map<IconExportData>((icon) => ({
+      ...icon,
+      url: images[icon.id] ?? "",
+    }));
 
     console.log(
       chalk.green(
@@ -65,7 +66,7 @@ export const generate = async (
     );
 
     const writtenIcons = await Promise.all(
-      iconExportData.map(icon => generateIcon(icon, config))
+      iconExportData.map((icon) => generateIcon(icon, config))
     );
     console.log(
       chalk.bold.green(
@@ -115,3 +116,12 @@ export const generate = async (
     console.error(e);
   }
 };
+
+generate({
+  output: "icons",
+  figma: {
+    fileId: "27uD8MSTL7eqo9pQYSIYnM",
+    frames: ["1:2"],
+    token: "54345-c3b182db-cb1e-4264-b607-38fb3ca0e50e",
+  },
+});

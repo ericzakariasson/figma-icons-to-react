@@ -1,10 +1,8 @@
 import { InvalidGeneratorConfig, GeneratorConfig } from "./types";
 import fs from "fs";
 
-export const defaultConfig: InvalidGeneratorConfig = {
-  output: undefined,
-  figma: undefined,
-  typescript: true
+export const defaultConfig: Partial<GeneratorConfig> = {
+  typescript: true,
 };
 
 export const validateConfig = (
@@ -29,6 +27,6 @@ export const validateConfig = (
 
   return {
     validationMessages,
-    isValid: validationMessages.length === 0
+    isValid: validationMessages.length === 0,
   };
 };
