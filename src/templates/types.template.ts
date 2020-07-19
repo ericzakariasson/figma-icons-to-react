@@ -1,4 +1,4 @@
-import { ComponentInterfaceTemplateParameters, PropType } from "../types";
+import { TypeDeclarationTemplateParameters, PropType } from "../types";
 
 export const defaultPropTypes: PropType[] = [
   {
@@ -16,7 +16,7 @@ export const defaultPropTypes: PropType[] = [
 export const defaultIconTypesTemplate = async ({
   propTypes,
   icons
-}: ComponentInterfaceTemplateParameters) => {
+}: TypeDeclarationTemplateParameters) => {
   return `
     import * as React from 'react';
 
@@ -32,7 +32,7 @@ export const defaultIconTypesTemplate = async ({
     }
     
     type Icon = React.FC<IconProps>;
-    
+
     ${icons.map(icon => `export const ${icon.name}: Icon;`).join("\r\n")}
   `;
 };
