@@ -119,5 +119,8 @@ export interface InvalidGeneratorConfig
 }
 
 export interface CliGeneratorConfig
-  extends Pick<GeneratorConfig, "output" | "prettierConfig" | "eslintConfig">,
+  extends Pick<
+      GeneratorConfig,
+      "output" | "prettierConfig" | "eslintConfig" | "typescript"
+    >,
     FigmaConfig {}
