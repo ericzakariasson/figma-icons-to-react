@@ -6,3 +6,107 @@ export interface IconData {
 export interface IconExportData extends IconData {
   url: string;
 }
+
+export interface GeneratedIconData {
+  name: string;
+}
+
+export interface ComponentTemplateParameters {
+  name: string;
+  props: Record<string, any>;
+  attributes: Record<string, string>;
+  innerContent: string;
+  size: number;
+  raw: string;
+  config: GeneratorConfig;
+}
+
+type InterfacePrimitiveType =
+  | "string"
+  | "number"
+  | "boolean"
+  | "object"
+  | "unknown"
+  | "any";
+
+export interface PropType {
+  name: string;
+  types: (InterfacePrimitiveType | string)[];
+  optional?: boolean;
+}
+
+export interface TypeDeclarationTemplateParameters {
+  icons: GeneratedIconData[];
+  propTypes: PropType[];
+  config: GeneratorConfig;
+}
+
+interface FigmaConfig {
+  fileId: string;
+  frames: string[];
+  token: string;
+}
+
+interface SwitchComponentOptions {
+  /**
+   * Defaults to "Icon"
+   */
+  name?: string;
+  /**
+   * Defaults to `{config.output}/{name}.tsx`
+   */
+  path?: string;
+  props?: Record<string, any>;
+}
+
+interface ComponentOptions {
+  /**
+   * Defaults to `pascalCase(name)`
+   */
+  name?: (name: string) => Promise<string>;
+  size?: number;
+  namePrefix?: string;
+  nameSuffix?: string;
+  template?: (parameters: ComponentTemplateParameters) => Promise<string>;
+  typesTemplate?: (
+    parameters: TypeDeclarationTemplateParameters
+  ) => Promise<string>;
+  /**
+   * Defaults to
+   * ```
+   * size?: string | number;
+   * color?: string;
+   * ```
+   */
+  props?: Record<string, any>;
+  propTypes?: PropType[];
+  attributes?: Record<string, any>;
+  /**
+   * Default to `24`
+   */
+  beforeTemplate?: (svgContent: string) => Promise<string>;
+  beforeWrite?: (svgContent: string) => Promise<string>;
+}
+
+export interface GeneratorConfig {
+  output: string;
+  figma: FigmaConfig;
+  component?: ComponentOptions;
+  switchComponent?: SwitchComponentOptions;
+  /**
+   * Defaults to `true`
+   */
+  typescript?: boolean;
+  prettierConfig?: string;
+  eslintConfig?: string;
+}
+
+export interface InvalidGeneratorConfig
+  extends Omit<GeneratorConfig, "output" | "figma"> {
+  output: undefined;
+  figma: undefined;
+}
+
+export interface CliGeneratorConfig
+  extends Pick<GeneratorConfig, "output" | "prettierConfig" | "eslintConfig">,
+    FigmaConfig {}
