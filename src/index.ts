@@ -1,7 +1,10 @@
-import { FigmaClient } from "./figma/figma.client";
+import { defaultConfig } from "./config";
 
-async function main() {
-  // const figma = new FigmaClient();
-}
+import { getConfig } from "./getConfig";
+
+const main = async () => {
+  const config = getConfig(defaultConfig);
+  console.log(config);
+};
 
 main();
