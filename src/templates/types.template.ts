@@ -1,26 +1,22 @@
-import {
-  TypeDeclarationTemplateParameters,
-  PropType,
-  ComponentTypesTemplateParameters
-} from "../types";
+import { PropType, ComponentTypesTemplateParameters } from "../types";
 import { ifTypescript } from "../utils";
 
 export const defaultPropTypes: PropType[] = [
   {
     name: "color",
     types: ["string"],
-    optional: true
+    optional: true,
   },
   {
     name: "size",
     types: ["string", "number"],
-    optional: true
-  }
+    optional: true,
+  },
 ];
 
 export const defaultIconTypesTemplate = async ({
   propTypes,
-  config
+  config,
 }: ComponentTypesTemplateParameters) => {
   const ifTs = ifTypescript(config);
   return `
@@ -29,7 +25,7 @@ export const defaultIconTypesTemplate = async ({
     export interface IconProps extends React.SVGAttributes<React.SVGElement> {
       ${propTypes
         .map(
-          propType =>
+          (propType) =>
             `${propType.name}${
               propType.optional ? "?" : ""
             }: ${propType.types.join(" | ")};`
