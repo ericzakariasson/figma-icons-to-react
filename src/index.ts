@@ -2,12 +2,7 @@ import "core-js";
 import { flatten } from "lodash";
 import chalk from "chalk";
 import { FigmaClient } from "./figma/figma.client";
-import {
-  IconData,
-  IconExportData,
-  GeneratorConfig,
-  InvalidGeneratorConfig,
-} from "./types";
+import { IconData, IconExportData } from "./types";
 import { defaultConfig, validateConfig } from "./config";
 import {
   generateIcon,
@@ -15,6 +10,7 @@ import {
   generateTypeDeclaration,
   generateTypes,
 } from "./generators";
+import { GeneratorConfig, InvalidGeneratorConfig } from "./config.types";
 
 export const generate = async (
   initialConfig: GeneratorConfig | InvalidGeneratorConfig
@@ -116,12 +112,3 @@ export const generate = async (
     console.error(e);
   }
 };
-
-generate({
-  output: "icons",
-  figma: {
-    fileId: "27uD8MSTL7eqo9pQYSIYnM",
-    frames: ["1:2"],
-    token: "54345-c3b182db-cb1e-4264-b607-38fb3ca0e50e",
-  },
-});

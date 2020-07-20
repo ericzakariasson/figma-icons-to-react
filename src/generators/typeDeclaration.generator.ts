@@ -1,7 +1,8 @@
 import path from "path";
-import { GeneratorConfig, GeneratedIconData } from "../types";
+import { GeneratedIconData } from "../types";
 import { writeFormattedFile } from "../utils";
 import { defaultTypeDeclarationTemplate, defaultPropTypes } from "../templates";
+import { GeneratorConfig } from "../config.types";
 
 export const generateTypeDeclaration = async (
   icons: GeneratedIconData[],
@@ -12,8 +13,8 @@ export const generateTypeDeclaration = async (
   const template = defaultTypeDeclarationTemplate;
   const fileContent = await template({
     icons,
-    propTypes: config.component?.propTypes ?? defaultPropTypes,
-    config
+    propTypes: config.componentTypes?.propTypes ?? defaultPropTypes,
+    config,
   });
 
   writeFormattedFile(filePath, fileContent, { ...config });

@@ -1,5 +1,5 @@
-import { InvalidGeneratorConfig, GeneratorConfig } from "./types";
 import fs from "fs";
+import { GeneratorConfig, InvalidGeneratorConfig } from "./config.types";
 
 export const defaultConfig: Partial<GeneratorConfig> = {
   typescript: true,

@@ -14,21 +14,21 @@ const generateKeyValuePair = (
   );
 
 const generateAttributes = (attributes: Attributes) =>
-  generateKeyValuePair(attributes, value => `"${value}"`);
+  generateKeyValuePair(attributes, (value) => `"${value}"`);
 
 const generateProps = (attributes: Attributes) =>
-  generateKeyValuePair(attributes, value => `{${value}}`);
+  generateKeyValuePair(attributes, (value) => `{${value}}`);
 
 export const defaultAttributes: Attributes = {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24",
-  fill: "none"
+  fill: "none",
 };
 
 export const defaultProps: Props = {
   stroke: "color",
   width: "size",
-  height: "size"
+  height: "size",
 };
 
 export const defaultIconTemplate = async ({
@@ -37,14 +37,20 @@ export const defaultIconTemplate = async ({
   props,
   size,
   innerContent,
-  typesFilePath,
-  config
+  typesFileName,
+  config,
 }: ComponentTemplateParameters) => {
   const ifTs = ifTypescript(config);
   return `
     import ${ifTs("* as")} React from 'react';
 
-    ${ifTs(`import { IconProps } from "./${path.parse(typesFilePath).name}";`)}
+    ${ifTs(
+      `import { IconProps } from "./${
+        typesFileName.endsWith("ts")
+          ? typesFileName.replace(".ts", "")
+          : typesFileName
+      }";`
+    )}
     
     export const ${name} = React.forwardRef${ifTs(
     `<IconProps, React.SVGElement>`

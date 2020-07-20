@@ -1,3 +1,5 @@
+import { GeneratorConfig } from "./config.types";
+
 export interface IconData {
   id: string;
   name: string;
@@ -18,7 +20,7 @@ export interface ComponentTemplateParameters {
   innerContent: string;
   size: number;
   raw: string;
-  typesFilePath: string;
+  typesFileName: string;
   config: GeneratorConfig;
 }
 
@@ -31,96 +33,42 @@ type InterfacePrimitiveType =
   | "any";
 
 export interface PropType {
+  /**
+   * @description Name of the prop
+   */
   name: string;
+  /**
+   * @description Type associated to `name`.
+   */
   types: (InterfacePrimitiveType | string)[];
+  /**
+   * @description Wether to make the prop optional and adding the suffix `?`.
+   */
   optional?: boolean;
 }
 
 export interface TypeDeclarationTemplateParameters {
+  /**
+   * @description Array of icons that were generated
+   */
   icons: GeneratedIconData[];
+  /**
+   * @description Prop types specified in `componentPropTypes`
+   */
   propTypes: PropType[];
+  /**
+   * @description Configuration
+   */
   config: GeneratorConfig;
 }
 
 export interface ComponentTypesTemplateParameters {
+  /**
+   * @description Prop types specified in `componentPropTypes`
+   */
   propTypes: PropType[];
+  /**
+   * @description Configuration
+   */
   config: GeneratorConfig;
 }
-
-interface FigmaConfig {
-  fileId: string;
-  frames: string[];
-  token: string;
-}
-
-interface SwitchComponentOptions {
-  /**
-   * Defaults to "Icon"
-   */
-  name?: string;
-  /**
-   * Defaults to `{config.output}/{name}.tsx`
-   */
-  path?: string;
-  props?: Record<string, any>;
-}
-
-interface ComponentOptions {
-  /**
-   * Defaults to `pascalCase(name)`
-   */
-  name?: (name: string) => Promise<string>;
-  size?: number;
-  namePrefix?: string;
-  nameSuffix?: string;
-  template?: (parameters: ComponentTemplateParameters) => Promise<string>;
-  /**
-   * Defaults to
-   * ```
-   * size?: string | number;
-   * color?: string;
-   * ```
-   */
-  props?: Record<string, any>;
-  propTypes?: PropType[];
-  /**
-   * Defaults to `Icon.types.ts`
-   */
-  typesFile?: string;
-  attributes?: Record<string, any>;
-  /**
-   * Default to `24`
-   */
-  beforeTemplate?: (svgContent: string) => Promise<string>;
-  beforeWrite?: (svgContent: string) => Promise<string>;
-}
-
-export interface GeneratorConfig {
-  output: string;
-  figma: FigmaConfig;
-  component?: ComponentOptions;
-  /**
-   * Preferrably used with `jsx`
-   */
-  typeDeclaration?: boolean | "force";
-  switchComponent?: SwitchComponentOptions;
-  /**
-   * Defaults to `true`
-   */
-  typescript?: boolean;
-  prettierConfig?: string;
-  eslintConfig?: string;
-}
-
-export interface InvalidGeneratorConfig
-  extends Omit<GeneratorConfig, "output" | "figma"> {
-  output: undefined;
-  figma: undefined;
-}
-
-export interface CliGeneratorConfig
-  extends Pick<
-      GeneratorConfig,
-      "output" | "prettierConfig" | "eslintConfig" | "typescript"
-    >,
-    FigmaConfig {}

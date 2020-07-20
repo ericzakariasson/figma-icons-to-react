@@ -3,17 +3,17 @@ import fetch from "node-fetch";
 import { parse } from "node-html-parser";
 import {
   IconExportData,
-  GeneratorConfig,
   ComponentTemplateParameters,
-  GeneratedIconData
+  GeneratedIconData,
 } from "../types";
 import {
   defaultIconTemplate,
   defaultAttributes,
-  defaultProps
+  defaultProps,
 } from "../templates";
 import { pascalCase, writeFormattedFile } from "../utils";
-import { defaultTypesFile } from "./types.generator";
+import { defaultTypesFileName } from "./types.generator";
+import { GeneratorConfig } from "../config.types";
 
 export const generateIcon = async (
   icon: IconExportData,
@@ -29,7 +29,7 @@ export const generateIcon = async (
   );
 
   const response = await fetch(icon.url, {
-    headers: { "Content-Type": "stream" }
+    headers: { "Content-Type": "stream" },
   });
 
   const html = await response.text();
@@ -46,8 +46,8 @@ export const generateIcon = async (
     props: config.component?.props ?? defaultProps,
     size: config.component?.size ?? 24,
     raw: html,
-    typesFilePath: config.component?.typesFile ?? defaultTypesFile,
-    config
+    typesFileName: config.componentTypes?.fileName ?? defaultTypesFileName,
+    config,
   };
 
   const template = config.component?.template ?? defaultIconTemplate;
@@ -59,6 +59,6 @@ export const generateIcon = async (
   writeFormattedFile(filePath, beforeWriteUpdate, { ...config });
 
   return {
-    name: templateOptions.name
+    name: templateOptions.name,
   };
 };
