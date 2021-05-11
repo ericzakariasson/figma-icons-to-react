@@ -27,7 +27,7 @@
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "core-js": "^3.6.5",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
     "node-html-parser": "^1.2.20",
     "prettier-eslint": "^11.0.0",
